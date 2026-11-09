@@ -100,3 +100,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--y);outline-offset:3
 .qa{display:grid;gap:14px}.qa details{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0 24px}.qa summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 0;font:700 18px var(--h);color:var(--ink)}
 .qa summary::-webkit-details-marker{display:none}.qa summary:after{content:"+";font-size:26px;color:var(--p6);flex:none}.qa details[open] summary:after{content:"−"}.qa details p{padding:0 0 22px;color:var(--mut)}
 @media(max-width:1100px){.faq{grid-template-columns:1fr}}
+
+
+/* Nav links single line */
+.nav-links a,
+.navbar a {
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+/* Consultation button single line + smaller */
+.nav-cta,
+.navbar .btn {
+  white-space: nowrap;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+/* Tagline chinna-ah */
+.logo-tagline {
+  font-size: 12px;
+  white-space: nowrap;
+}
