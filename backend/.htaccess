@@ -1,0 +1,9 @@
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<FilesMatch "\.(sql|md|txt)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(config|env|db)\.php$">
+  Require all denied
+</FilesMatch>
