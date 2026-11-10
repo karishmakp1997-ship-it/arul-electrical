@@ -144,7 +144,7 @@ function Hero({ s }) {
   const [cur, setCur] = useState(0)
   useEffect(() => {
     if (slides.length < 2) return
-    const t = setInterval(() => setCur((c) => (c + 1) % slides.length), 5000)
+    const t = setInterval(() => setCur((c) => (c + 1) % slides.length), 3000)
     return () => clearInterval(t)
   }, [slides.length])
   return (<section id="home" className="hero bg">
