@@ -101,24 +101,20 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--y);outline-offset:3
 .qa summary::-webkit-details-marker{display:none}.qa summary:after{content:"+";font-size:26px;color:var(--p6);flex:none}.qa details[open] summary:after{content:"−"}.qa details p{padding:0 0 22px;color:var(--mut)}
 @media(max-width:1100px){.faq{grid-template-columns:1fr}}
 
+/* hero slider */
+.hslide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;z-index:0}
+.hslide.on{opacity:1}
+.hslide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hshade{background:linear-gradient(rgba(45,10,92,.2),rgba(45,10,92,.35));z-index:1}
+.hc{z-index:2}
 
-/* Nav links single line */
-.nav-links a,
-.navbar a {
-  white-space: nowrap;
-  font-size: 15px;
-}
-
-/* Consultation button single line + smaller */
-.nav-cta,
-.navbar .btn {
-  white-space: nowrap;
-  font-size: 14px;
-  padding: 10px 16px;
-}
-
-/* Tagline chinna-ah */
-.logo-tagline {
-  font-size: 12px;
-  white-space: nowrap;
-}
+/* navbar: smaller, single line */
+.nav .wrap{gap:20px;height:88px}
+.brand{flex:none}
+.brand b{font-size:20px;white-space:nowrap}
+.brand small{font-size:12.5px;white-space:nowrap}
+.nav nav{gap:24px;font-size:15px}
+.nav nav a{white-space:nowrap}
+.navbtn{padding:11px 18px;font-size:14px;white-space:nowrap;flex:none}
+@media(max-width:1180px){.nav nav{gap:16px;font-size:14px}.brand small{display:none}.navbtn{padding:10px 14px;font-size:13px}}
+@media(max-width:860px){.nav nav{top:88px}}

@@ -137,9 +137,19 @@ function Nav({ s }) {
       <button className="burger" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
     </div></header></>)
 }
+const HERO2 = 'https://res.cloudinary.com/llh4nqz7/image/upload/v1794229864/Container_1.png'
 
 function Hero({ s }) {
-  return (<section id="home" className="hero bg"><Img src={s.hero_image} alt={s.hero_alt} eager /><div className="hshade" /><div className="wrap hc">
+  const slides = [s.hero_image, HERO2].filter(Boolean)
+  const [cur, setCur] = useState(0)
+  useEffect(() => {
+    if (slides.length < 2) return
+    const t = setInterval(() => setCur((c) => (c + 1) % slides.length), 5000)
+    return () => clearInterval(t)
+  }, [slides.length])
+  return (<section id="home" className="hero bg">
+    {slides.map((src, i) => <div key={src} className={'hslide' + (i === cur ? ' on' : '')}><Img src={src} alt={s.hero_alt} eager /></div>)}
+    <div className="hshade" /><div className="wrap hc">
     <span className="pill out"><i className="dot" /> A-GRADE ELECTRICAL CONTRACTORS & CONSULTANTS</span>
     <h1>Powering Industries with Reliable Electrical Solutions.</h1>
     <p>Your trusted partner for HT & LT electrical contracting, industrial power equipment, panel manufacturing and turnkey engineering services across Chennai.</p>
@@ -147,7 +157,6 @@ function Hero({ s }) {
     <div className="chips"><div><span className="ibox y"><BadgeCheck size={20} /></span>HT & LT Electrical Expertise</div><div><span className="ibox y"><Factory size={20} /></span>Industrial Infrastructure</div><div><span className="ibox y"><FileText size={20} /></span>Technical Docs & CEA Compliance</div></div>
   </div></section>)
 }
-
 function Faq({ list }) {
   if (!list?.length) return null
   return (<section id="faq" className="sec white"><div className="wrap faq">
