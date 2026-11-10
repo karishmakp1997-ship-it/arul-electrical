@@ -28,6 +28,10 @@ const Head = ({ label, title, sub, light }) => (
 )
 const go = (id) => (e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
 
+// Tap-to-call: phone numbers become links only on mobile devices (laptops show plain text)
+const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+const Tel = ({ n }) => (isMobile ? <a href={'tel:' + n.replace(/[^\d+]/g, '')} className="tel">{n}</a> : <>{n}</>)
+
 export default function App() {
   const [d, setD] = useState(null)
   const [err, setErr] = useState('')
@@ -137,14 +141,16 @@ function Nav({ s }) {
       <button className="burger" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
     </div></header></>)
 }
-const HERO2 = 'https://res.cloudinary.com/llh4nqz7/image/upload/v1794229864/Container_1.png'
+
+// Hero slider: first image comes from the database (settings.hero_image), second image is set here
+const HERO2 = 'https://res.cloudinary.com/llh4nqz7/image/upload/v1794292648/Container1.png'
 
 function Hero({ s }) {
   const slides = [s.hero_image, HERO2].filter(Boolean)
   const [cur, setCur] = useState(0)
   useEffect(() => {
     if (slides.length < 2) return
-    const t = setInterval(() => setCur((c) => (c + 1) % slides.length), 3000)
+    const t = setInterval(() => setCur((c) => (c + 1) % slides.length), 2000)
     return () => clearInterval(t)
   }, [slides.length])
   return (<section id="home" className="hero bg">
@@ -157,6 +163,7 @@ function Hero({ s }) {
     <div className="chips"><div><span className="ibox y"><BadgeCheck size={20} /></span>HT & LT Electrical Expertise</div><div><span className="ibox y"><Factory size={20} /></span>Industrial Infrastructure</div><div><span className="ibox y"><FileText size={20} /></span>Technical Docs & CEA Compliance</div></div>
   </div></section>)
 }
+
 function Faq({ list }) {
   if (!list?.length) return null
   return (<section id="faq" className="sec white"><div className="wrap faq">
@@ -214,8 +221,8 @@ function Contact({ s, prefill }) {
     <div><small className="eyebrow dk">DIRECT ACCESS</small><h2>Let’s Discuss Your Electrical Project.</h2>
       <p className="sub">Speak directly with our senior electrical engineers in Chennai regarding tenders, site inspections and turnkey estimates.</p>
       <div className="ic"><span className="ibox l"><MapPin size={20} /></span><div><h4>Registered Engineering Office</h4><p>{s.address}</p></div></div>
-      <div className="ic"><span className="ibox l"><Phone size={20} /></span><div><h4>Technical Support Hotline</h4><b>{s.hotline}</b><small>Direct engineer helpline</small></div></div>
-      <div className="ic"><span className="ibox l"><Mail size={20} /></span><div><h4>Official Project Email</h4><b>{s.email}</b><small>Tender documents & BOQ submissions</small></div></div>
+      <div className="ic"><span className="ibox l"><Phone size={20} /></span><div><h4>Technical Support Hotline</h4><b>{s.hotline.split('/').map((n, i) => <span key={i}>{i > 0 && ' / '}<Tel n={n.trim()} /></span>)}</b><small>Direct engineer helpline</small></div></div>
+      <div className="ic"><span className="ibox l"><Mail size={20} /></span><div><h4>Official Project Email</h4><b><a href={'mailto:' + s.email} className="tel">{s.email}</a></b><small>Tender documents & BOQ submissions</small></div></div>
       <div className="ic"><span className="ibox l"><Clock size={20} /></span><div><h4>Operations Schedule</h4><p>{s.hours}</p></div></div>
       <div className="emerg"><AlertCircle size={34} /><div><h4>24/7 EMERGENCY SUPPORT</h4><p>Immediate mobilization for industrial sub-station & transformer trip emergencies.</p></div></div></div>
     <form className="form" onSubmit={submit} noValidate><h3>Project Technical Assessment Form</h3><p className="sub">Complete the parameters below to receive a formal preliminary engineering estimate.</p>
@@ -234,7 +241,7 @@ function Footer({ s }) {
   const L = ({ items }) => items.map(([t, id]) => <a key={t} href={'#' + id} onClick={go(id)}>{t}</a>)
   return (<footer className="foot"><div className="wrap">
     <div className="ftop"><div className="fbrand"><span className="logo big"><Zap size={30} /></span><div><h3>{s.company} <em>A-GRADE GOVT LICENSED</em></h3><p className="y">{s.tagline}</p></div></div>
-      <div className="fcta"><div className="hot"><span className="ibox y"><Headset size={20} /></span><div><small>24/7 BREAKDOWN HOTLINE</small><b>{s.phone}</b></div></div>
+      <div className="fcta"><div className="hot"><span className="ibox y"><Headset size={20} /></span><div><small>24/7 BREAKDOWN HOTLINE</small><b><Tel n={s.phone} /></b></div></div>
         <a href="#contact" onClick={go('contact')} className="btn yel"><Compass size={18} /> Schedule Technical Audit</a></div></div>
     <div className="fgrid">
       <div className="fabout"><h5>ABOUT {s.company}</h5><p>A-Grade licensed electrical contractors and consultants in Chennai, specialising in HT/LT installations, custom switchgear and panel manufacturing, statutory Rule 45 and Rule 32 compliance, and turnkey industrial electrical infrastructure.</p>
@@ -243,7 +250,7 @@ function Footer({ s }) {
       <div><h5>ENGINEERING SERVICES</h5><ul className="bl"><li>HT Connection</li><li>HT/LT Installation</li><li>Panel Board Manufacturing</li><li>Rule 45 & 32 Documentation</li><li>HT/LT Cable Laying</li><li>Cable Tray</li><li>Transformers</li><li>HT Panels</li><li>DG Sets</li></ul></div>
       <div><h5>POWER EQUIPMENT</h5><ul className="bl"><li>Transformers</li><li>HT Switchgear</li><li>Diesel Generator Sets</li><li>MCC & PCC Panels</li><li>APFC Panels</li></ul></div>
       <div><h5>QUICK LINKS</h5><div className="ql"><L items={[['About Us', 'about'], ['Capabilities', 'capabilities'], ['Services', 'services'], ['Equipment', 'equipment'], ['Projects', 'projects'], ['Process', 'process'], ['Consultation', 'contact']]} /></div></div>
-      <div><h5>CORPORATE OFFICE</h5><p className="fi"><MapPin size={18} />{s.footer_address || s.address}</p><p className="fi"><Phone size={18} />{s.phone}</p><p className="fi"><Mail size={18} />{s.email}</p><p className="fi"><Clock size={18} />{s.hours}</p></div>
+      <div><h5>CORPORATE OFFICE</h5><p className="fi"><MapPin size={18} />{s.footer_address || s.address}</p><p className="fi"><Phone size={18} /><Tel n={s.phone} /></p><p className="fi"><Mail size={18} /><a href={'mailto:' + s.email} className="tel">{s.email}</a></p><p className="fi"><Clock size={18} />{s.hours}</p></div>
     </div>
     <div className="legal"><div><p>© 2026 {s.company}. All rights reserved. A-Grade Electrical Contractors & Consultants.</p><small>Central Electricity Authority statutory compliance certified.</small></div><span><a href="#home">Privacy Policy</a><a href="#home">Terms of Service</a><a href="#home">Statutory Approvals</a></span></div>
   </div></footer>)
