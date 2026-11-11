@@ -108,13 +108,27 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--y);outline-offset:3
 .hshade{background:linear-gradient(rgba(45,10,92,.2),rgba(45,10,92,.35));z-index:1}
 .hc{z-index:2}
 
-/* navbar: smaller, single line */
-/* logo size + bold tagline */
-.nav .wrap{height:96px}
-.brand img{height:68px;width:auto}
-.brand small{font-weight:700;color:var(--p8)}
-@media(max-width:860px){.nav nav{top:96px}.brand img{height:56px}}
+/* ===== NAVBAR FIX (keep at the very END of styles.css) ===== */
+.nav .wrap{max-width:1400px;gap:20px;height:96px}
+.brand{flex:none;gap:12px}
+.brand img{height:68px;width:auto;mix-blend-mode:multiply}
+.brand b{font-size:20px;white-space:nowrap;gap:8px}
+.brand small{font-size:12.5px;font-weight:700;color:var(--p8);white-space:nowrap;line-height:1.3}
+.nav nav{gap:22px;font-size:15px}
+.nav nav a{white-space:nowrap}
+.navbtn{white-space:nowrap;flex:none;padding:11px 18px;font-size:14px}
 
+@media(max-width:1240px){.brand small{display:none}.nav nav{gap:16px;font-size:14px}}
+
+@media(max-width:1024px){
+  .burger{display:block}
+  .navbtn{display:none}
+  .nav nav{display:none;position:absolute;top:96px;left:0;right:0;flex-direction:column;gap:0;background:#fff;padding:8px 28px 20px;box-shadow:0 14px 24px rgba(0,0,0,.1)}
+  .nav nav.open{display:flex}
+  .nav nav a{padding:14px 0;border-bottom:1px solid var(--line)}
+}
+
+@media(max-width:640px){.brand img{height:54px}.brand b{font-size:17px}.brand em{display:none}}
 /* Since 1987 badge */
 .frame{position:relative}
 .since{position:absolute;top:-14px;right:-14px;z-index:3;width:92px;height:92px;border-radius:50%;background:var(--y);color:var(--p8);display:grid;place-content:center;text-align:center;box-shadow:0 10px 24px rgba(0,0,0,.3)}
