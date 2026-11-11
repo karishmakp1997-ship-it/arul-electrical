@@ -109,12 +109,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--y);outline-offset:3
 .hc{z-index:2}
 
 /* navbar: smaller, single line */
-.nav .wrap{gap:20px;height:88px}
-.brand{flex:none}
-.brand b{font-size:20px;white-space:nowrap}
-.brand small{font-size:12.5px;white-space:nowrap}
-.nav nav{gap:24px;font-size:15px}
-.nav nav a{white-space:nowrap}
-.navbtn{padding:11px 18px;font-size:14px;white-space:nowrap;flex:none}
-@media(max-width:1180px){.nav nav{gap:16px;font-size:14px}.brand small{display:none}.navbtn{padding:10px 14px;font-size:13px}}
-@media(max-width:860px){.nav nav{top:88px}}
+/* logo size + bold tagline */
+.nav .wrap{height:96px}
+.brand img{height:68px;width:auto}
+.brand small{font-weight:700;color:var(--p8)}
+@media(max-width:860px){.nav nav{top:96px}.brand img{height:56px}}
+
+/* Since 1987 badge */
+.frame{position:relative}
+.since{position:absolute;top:-14px;right:-14px;z-index:3;width:92px;height:92px;border-radius:50%;background:var(--y);color:var(--p8);display:grid;place-content:center;text-align:center;box-shadow:0 10px 24px rgba(0,0,0,.3)}
+.since small{font:700 11px var(--h);letter-spacing:.12em}
+.since b{font:800 24px var(--h);line-height:1}
+@media(max-width:640px){.since{top:8px;right:8px;width:76px;height:76px}.since b{font-size:20px}}
+
+/* map */
+.mapbox{margin-top:20px;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(59,10,110,.05)}
+.mapbox iframe{display:block;width:100%;height:260px;border:0}
+.mapbox .btn{border-radius:0 0 14px 14px}
+
+/* WhatsApp chat button */
+.wa{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:99px;background:#25d366;color:#fff;font:700 15px var(--h);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.wa:hover{filter:brightness(1.05)}
+@media(max-width:640px){.wa span{display:none}.wa{padding:14px;right:16px;bottom:16px}}

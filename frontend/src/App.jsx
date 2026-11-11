@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Zap, Phone, Mail, MapPin, Clock, ShieldCheck, CheckCircle2, ArrowRight, Star, FileText, Factory, Compass,
-  CalendarCheck, Headset, Network, Award, Cable, Settings, BadgeCheck, Menu, X, AlertCircle, Search, Cpu, Briefcase, MessageSquare, PlayCircle } from 'lucide-react'
+  CalendarCheck, Headset, Network, Award, Cable, Settings, BadgeCheck, Menu, X, AlertCircle, Search, Cpu, Briefcase, MessageSquare, PlayCircle, MessageCircle } from 'lucide-react'
 
 const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 const Img = ({ src, alt, eager }) => (src ? <img src={src} alt={alt || ''} loading={eager ? 'eager' : 'lazy'} decoding="async" /> : null)
@@ -60,13 +60,13 @@ export default function App() {
     </div></section>
 
     <section id="about" className="sec purple"><div className="wrap about">
-      <div className="aimg"><div className="frame"><div className="bg"><Img src={s.about_image} alt={s.about_alt} /></div></div>
+      <div className="aimg"><div className="frame"><div className="bg"><Img src={s.about_image} alt={s.about_alt} /></div><div className="since"><small>SINCE</small><b>1987</b></div></div>
         <div className="safety"><h4><ShieldCheck size={22} /> Safety-First Protocols</h4>
           <p>Strict CEIG safety standards, zero-compromise insulation testing, and zero-accident construction policy.</p><span className="tag">INDUSTRIAL STANDARDS COMPLIANT</span></div></div>
       <div>
         <small className="eyebrow">ABOUT OUR COMPANY</small>
         <h2>Industrial Electrical Contracting Built for Reliability.</h2>
-        <p className="lead"><b className="y">{s.company}</b> is a premier A-Grade licensed electrical contractor and electrical engineering company in Chennai, specialising in HT/LT electrical installations, panel board manufacturing, heavy equipment supply and statutory compliance.</p>
+        <p className="lead"><b className="y">{s.company}</b> is a premier A-Grade licensed electrical contractor and electrical engineering company in Chennai, serving industries since 1987 and specialising in HT/LT electrical installations, panel board manufacturing, heavy equipment supply and statutory compliance.</p>
         <p className="mut">As an electrical contracting company and consultancy, we focus on technically planned industrial electrical systems with uncompromising workmanship. From initial grid load approvals to high-capacity step-down transformer commissioning, our engineers ensure faultless installations for plants, mills and commercial parks.</p>
         <ul className="checks">{d.about_points.map((p) => <li key={p.id}><CheckCircle2 size={22} /><div><h3>{p.title}</h3><span>{p.description}</span></div></li>)}</ul>
         <a href="#contact" onClick={go('contact')} className="btn yel">Schedule Site Audit <CalendarCheck size={18} /></a>
@@ -127,7 +127,17 @@ export default function App() {
     <Faq list={d.faqs} />
     <Contact s={s} prefill={prefill} />
     <Footer s={s} />
+    <Chat s={s} />
   </>)
+}
+
+// Floating WhatsApp chat button (uses the phone number saved in admin Settings)
+function Chat({ s }) {
+  const num = (s.phone || '').replace(/\D/g, '')
+  if (!num) return null
+  const wa = num.length === 10 ? '91' + num : num
+  const text = encodeURIComponent('Hello ' + s.company + ', I would like to enquire about an electrical project.')
+  return (<a className="wa" href={'https://wa.me/' + wa + '?text=' + text} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><MessageCircle size={26} /><span>Chat with us</span></a>)
 }
 
 function Nav({ s }) {
@@ -224,7 +234,9 @@ function Contact({ s, prefill }) {
       <div className="ic"><span className="ibox l"><Phone size={20} /></span><div><h4>Technical Support Hotline</h4><b>{s.hotline.split('/').map((n, i) => <span key={i}>{i > 0 && ' / '}<Tel n={n.trim()} /></span>)}</b><small>Direct engineer helpline</small></div></div>
       <div className="ic"><span className="ibox l"><Mail size={20} /></span><div><h4>Official Project Email</h4><b><a href={'mailto:' + s.email} className="tel">{s.email}</a></b><small>Tender documents & BOQ submissions</small></div></div>
       <div className="ic"><span className="ibox l"><Clock size={20} /></span><div><h4>Operations Schedule</h4><p>{s.hours}</p></div></div>
-      <div className="emerg"><AlertCircle size={34} /><div><h4>24/7 EMERGENCY SUPPORT</h4><p>Immediate mobilization for industrial sub-station & transformer trip emergencies.</p></div></div></div>
+      <div className="emerg"><AlertCircle size={34} /><div><h4>24/7 EMERGENCY SUPPORT</h4><p>Immediate mobilization for industrial sub-station & transformer trip emergencies.</p></div></div>
+      <div className="mapbox"><iframe title={s.company + ' office location'} src={'https://maps.google.com/maps?q=' + encodeURIComponent(s.footer_address || s.address) + '&z=15&output=embed'} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        <a href={'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.footer_address || s.address)} target="_blank" rel="noopener noreferrer" className="btn pur full"><MapPin size={18} /> Get Directions</a></div></div>
     <form className="form" onSubmit={submit} noValidate><h3>Project Technical Assessment Form</h3><p className="sub">Complete the parameters below to receive a formal preliminary engineering estimate.</p>
       <div className="f2"><Field {...c} k="full_name" label="Full Name" ph="e.g. Ramesh Kumar" req /><Field {...c} k="company" label="Company / Organization" ph="e.g. Acme Industrial Mills" req />
         <Field {...c} k="mobile" label="Mobile Contact" ph="+91 98765 43210" req /><Field {...c} k="email" label="Email Address" ph="engineer@company.com" req type="email" />
